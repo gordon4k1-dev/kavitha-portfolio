@@ -1,0 +1,122 @@
+/* --- Core Styling Extensions --- */
+:root {
+    --coral: #FF7F50;
+    --peach: #FADADD;
+}
+
+body {
+    background-color: #FFF5F5;
+    transition: background-color 0.3s ease;
+}
+
+/* Jules Tracking Sidebar */
+.jules-sidebar {
+    position: fixed;
+    right: 2rem;
+    top: 10%;
+    width: 4px;
+    height: 80vh;
+    background: rgba(255, 127, 80, 0.1);
+    z-index: 100;
+    border-radius: 2px;
+}
+.jules-label {
+    position: absolute;
+    top: -20px;
+    right: 0;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 8px;
+    color: var(--coral);
+    letter-spacing: 2px;
+    transform: rotate(-90deg);
+    transform-origin: right bottom;
+    white-space: nowrap;
+}
+.jules-progress {
+    width: 100%;
+    height: 0%;
+    background: var(--coral);
+    box-shadow: 0 0 8px var(--coral);
+}
+
+/* Vertical Left Labels */
+.vertical-text {
+    transform: rotate(-90deg);
+    white-space: nowrap;
+}
+
+/* Mechanical Mask Reveal Styles */
+.tech-viewport {
+    border: 1px solid rgba(255, 127, 80, 0.3);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.05);
+}
+.wipe-mask {
+    position: absolute;
+    inset: 0;
+    background: #FFF5F5;
+    z-index: 2;
+    transform-origin: bottom;
+}
+
+/* Custom Module Element Badges */
+.meta-overlay {
+    position: absolute;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    color: var(--coral);
+    background: rgba(255, 255, 255, 0.8);
+    padding: 2px 6px;
+    z-index: 3;
+    letter-spacing: 1px;
+}
+.meta-tl { top: 8px; left: 8px; border-bottom-right-radius: 4px; }
+.meta-tr { top: 8px; right: 8px; border-bottom-left-radius: 4px; }
+.meta-bl { bottom: 8px; left: 8px; border-top-right-radius: 4px; }
+.meta-br { bottom: 8px; right: 8px; border-top-left-radius: 4px; }
+
+/* Custom Overlays for specific modules */
+.bg-quote {
+    position: absolute;
+    font-family: 'Integral CF', sans-serif;
+    font-size: 12vw;
+    color: rgba(255, 127, 80, 0.04);
+    font-weight: bold;
+    z-index: 0;
+    pointer-events: none;
+    white-space: nowrap;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.mandala-bg {
+    position: absolute;
+    right: -10%;
+    width: 50%;
+    opacity: 0.05;
+    pointer-events: none;
+    z-index: 0;
+}
+
+/* Safety Pulse Animation */
+.safety-pulse {
+    animation: pulse-red 2s infinite;
+}
+@keyframes pulse-red {
+    0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(220, 38, 38, 0.7); }
+    70% { transform: scale(1); box-shadow: 0 0 0 10px rgba(220, 38, 38, 0); }
+    100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(220, 38, 38, 0); }
+}
+
+/* Blueprint Data Table */
+.blueprint-table th, .blueprint-table td {
+    padding: 6px 12px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: #374151;
+}
+.blueprint-table th {
+    color: var(--coral);
+    text-transform: uppercase;
+    border-b: 1px solid rgba(255, 127, 80, 0.2);
+}
