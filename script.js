@@ -1,179 +1,64 @@
-// Lenis Smooth Scroll Setup
-const lenis = new Lenis({
-    duration: 1.2,
-    easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), 
-    direction: 'vertical',
-    gestureDirection: 'vertical',
-    smooth: true,
-    mouseMultiplier: 1,
-    smoothTouch: false,
-    touchMultiplier: 2,
-    infinite: false,
-});
+const portfolioData = [
+    },
 
-// Integrate Lenis with GSAP ScrollTrigger
-lenis.on('scroll', ScrollTrigger.update);
-
-gsap.ticker.add((time) => {
-    lenis.raf(time * 1000);
-});
-gsap.ticker.lagSmoothing(0);
-
-// ==========================================
-// SYSTEM BOOT ANIMATION (HERO)
-// ==========================================
-document.addEventListener("DOMContentLoaded", () => {
-    
-    const bootContainer = document.getElementById('boot-text-container');
-    const topics = [
-        "15-DAY INTERNSHIP", "ALUMNI MEET", "COMMUNITY OUTREACH", 
-        "WOMEN'S DAY", "SCIENCE DAY", "EVENT MANAGEMENT", 
-        "MAHATMA PHULE DAY", "AMBEDKAR JAYANTI", "EDUCATIONAL TECH"
-    ];
-
-    // Populate boot text rows
-    if(bootContainer) {
-        for(let i=0; i<30; i++) {
-            const textRow = document.createElement('div');
-            textRow.textContent = topics.join(" // ") + " // " + topics.join(" // ");
-            textRow.style.opacity = Math.random() * 0.5 + 0.1;
-            bootContainer.appendChild(textRow);
-        }
+    {
+        title: 'Alumni',
+        module: 'MODULE_15',
+        image: 'images/alumni.jpg',
+        description: `
+        Alumni interactions inspired professional growth and networking.
+        `
     }
+];
 
-   // Boot Sequence Animation
-    const tl = gsap.timeline();
+const container = document.getElementById('portfolio-container');
 
-    // 1. Flash the boot text rows smoothly
-    tl.to(bootContainer, {
-        y: "-50%",
-        duration: 3,
-        ease: "power4.inOut"
-    }, 0);
+portfolioData.forEach(item => {
 
-    // 2. Reveal the Central Glass Info Pane
-    tl.from(".glass-pane", {
-        y: 50,
-        opacity: 0,
-        duration: 1.5,
-        ease: "power3.out"
-    }, 1);
+    const section = document.createElement('section');
 
-    // ==========================================
-    // KINETIC SCROLL & PROGRESS BAR
-    // ==========================================
-    gsap.to("body", {
-        backgroundColor: "#fcd1d6", 
-        scrollTrigger: {
-            trigger: "body",
-            start: "top top",
-            end: "bottom bottom",
-            scrub: true
-        }
-    });
+    section.className = 'section';
 
-    gsap.to("#jules-progress", {
-        height: "100%",
-        ease: "none",
-        scrollTrigger: {
-            trigger: "body",
-            start: "top top",
-            end: "bottom bottom",
-            scrub: true
-        }
-    });
+    const card = document.createElement('div');
 
-    // ==========================================
-    // DATA MODULE REVEALS
-    // ==========================================
-    const modules = document.querySelectorAll(".data-module");
+    card.className = 'card';
 
-    modules.forEach((mod) => {
-        const wipeMask = mod.querySelector(".wipe-mask");
-        const img = mod.querySelector(".parallax-image");
-        const textContent = mod.querySelector(".section-text-content");
-        const verticalText = mod.querySelector(".vertical-text");
+    const imageBox = document.createElement('div');
 
-        const modTl = gsap.timeline({
-            scrollTrigger: {
-                trigger: mod,
-                start: "top 75%", 
-                toggleActions: "play none none reverse"
-            }
-        });
+    imageBox.className = 'image-box';
 
-        if(wipeMask) {
-            modTl.to(wipeMask, {
-                scaleY: 0,
-                duration: 1.2,
-                ease: "power4.inOut"
-            }, 0);
-        }
+    const image = document.createElement('img');
 
-        if(img) {
-            modTl.from(img, {
-                scale: 1.2,
-                duration: 1.5,
-                ease: "power3.out"
-            }, 0);
-            
-            gsap.to(img, {
-                yPercent: 10,
-                ease: "none",
-                scrollTrigger: {
-                    trigger: mod,
-                    start: "top bottom",
-                    end: "bottom top",
-                    scrub: true
-                }
-            });
-        }
+    image.src = item.image;
 
-        if(textContent) {
-            modTl.from(textContent.children, {
-                y: 30,
-                opacity: 0,
-                duration: 0.8,
-                stagger: 0.1,
-                ease: "power2.out"
-            }, 0.5);
-        }
+    image.alt = item.title;
 
-        if(verticalText) {
-            modTl.from(verticalText, {
-                x: -20,
-                opacity: 0,
-                duration: 1,
-                ease: "power3.out"
-            }, 0.2);
-        }
-    });
+    const content = document.createElement('div');
 
-    // ==========================================
-    // INTERACTIVE PANCHPADI ANIMATION (MODULE 30)
-    // ==========================================
-    const panchpadiSteps = document.querySelectorAll('.panchpadi-step');
-    if(panchpadiSteps.length > 0) {
-        ScrollTrigger.create({
-            trigger: panchpadiSteps[0].closest('.data-module'),
-            start: "top center",
-            onEnter: () => {
-                panchpadiSteps.forEach((step, index) => {
-                    setTimeout(() => {
-                        panchpadiSteps.forEach(s => {
-                            s.style.borderLeft = "none";
-                            s.style.backgroundColor = "transparent";
-                            s.style.transform = "translateX(0px)";
-                            s.style.color = "#1f2937";
-                        });
-                        step.style.borderLeft = "4px solid #FF7F50";
-                        step.style.backgroundColor = "rgba(255, 127, 80, 0.1)";
-                        step.style.transform = "translateX(8px)";
-                        step.style.color = "#FF7F50";
-                        step.style.transition = "all 0.4s ease";
-                    }, index * 1000); 
-                });
-            }
-        });
-    }
+    content.className = 'content';
+
+    content.innerHTML = `
+        <p class="module-id">${item.module}</p>
+        <h2>${item.title}</h2>
+        <p>${item.description}</p>
+    `;
+
+    image.onerror = () => {
+
+        imageBox.remove();
+
+        section.classList.add('no-image');
+    };
+
+    image.onload = () => {
+        imageBox.appendChild(image);
+    };
+
+    card.appendChild(imageBox);
+
+    card.appendChild(content);
+
+    section.appendChild(card);
+
+    container.appendChild(section);
 });
