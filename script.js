@@ -1,64 +1,64 @@
-const portfolioData = [
-    },
+// SCROLL REVEAL
 
-    {
-        title: 'Alumni',
-        module: 'MODULE_15',
-        image: 'images/alumni.jpg',
-        description: `
-        Alumni interactions inspired professional growth and networking.
-        `
-    }
-];
+const modules = document.querySelectorAll(".data-module");
 
-const container = document.getElementById('portfolio-container');
+const observer = new IntersectionObserver((entries)=>{
 
-portfolioData.forEach(item => {
+    entries.forEach(entry=>{
 
-    const section = document.createElement('section');
+        if(entry.isIntersecting){
 
-    section.className = 'section';
+            entry.target.classList.add("show");
+        }
+    });
 
-    const card = document.createElement('div');
+},{
+    threshold:0.15
+});
 
-    card.className = 'card';
+modules.forEach(module=>{
+    observer.observe(module);
+});
 
-    const imageBox = document.createElement('div');
+// IMAGE AUTO FIX
 
-    imageBox.className = 'image-box';
+const images = document.querySelectorAll("img");
 
-    const image = document.createElement('img');
+images.forEach(img=>{
 
-    image.src = item.image;
+    img.loading = "lazy";
 
-    image.alt = item.title;
+    img.onerror = () => {
 
-    const content = document.createElement('div');
+        console.log("Missing image:", img.src);
 
-    content.className = 'content';
+        const fallback = document.createElement("div");
 
-    content.innerHTML = `
-        <p class="module-id">${item.module}</p>
-        <h2>${item.title}</h2>
-        <p>${item.description}</p>
-    `;
+        fallback.className = "image-error";
 
-    image.onerror = () => {
+        fallback.innerText = "Image Not Found";
 
-        imageBox.remove();
+        img.parentElement.appendChild(fallback);
 
-        section.classList.add('no-image');
+        img.remove();
     };
+});
 
-    image.onload = () => {
-        imageBox.appendChild(image);
-    };
+// PARALLAX EFFECT
 
-    card.appendChild(imageBox);
+window.addEventListener("scroll",()=>{
 
-    card.appendChild(content);
+    const parallaxImages =
+        document.querySelectorAll(".parallax-image");
 
-    section.appendChild(card);
+    parallaxImages.forEach(img=>{
 
-    container.appendChild(section);
+        const speed = 0.05;
+
+        const y =
+            window.scrollY * speed;
+
+        img.style.transform =
+            `scale(1.1) translateY(${y}px)`;
+    });
 });
