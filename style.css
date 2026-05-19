@@ -1,39 +1,51 @@
-/* Hide broken images */
-img {
-    object-fit: cover;
+* {
+
+.content {
+    flex: 1;
+    padding: 50px;
 }
 
-/* If image fails, hide container spacing */
-img:not([src]),
-img[src=""],
-img[src*="undefined"] {
-    display: none;
+.content h2 {
+    font-size: clamp(2rem, 4vw, 4rem);
+    margin-bottom: 25px;
+    font-family: 'Playfair Display', serif;
 }
 
-/* Center content when image is missing */
-.section-visual:empty {
-    display: none;
+.content p {
+    line-height: 1.9;
+    opacity: 0.9;
+    font-size: 0.95rem;
 }
 
-.section-visual img {
+.module-id {
+    color: coral;
+    margin-bottom: 15px;
+    letter-spacing: 2px;
+}
+
+.no-image .content {
     width: 100%;
-    height: 100%;
-    object-fit: cover;
-    border-radius: 18px;
-}
-
-/* Auto center text if no image exists */
-.data-module .section-text-content {
+    max-width: 1000px;
     margin: auto;
+    text-align: center;
 }
 
-/* Better framing */
-.tech-viewport {
-    border-radius: 20px;
-    overflow: hidden;
-    border: 1px solid rgba(255,127,80,0.35);
-    box-shadow:
-        0 10px 30px rgba(0,0,0,0.2),
-        0 0 20px rgba(255,127,80,0.15);
-    background: rgba(255,255,255,0.03);
+.no-image .card {
+    justify-content: center;
+}
+
+@media (max-width: 900px) {
+
+    .card {
+        flex-direction: column;
+    }
+
+    .image-box {
+        width: 100%;
+        min-height: 300px;
+    }
+
+    .content {
+        padding: 35px;
+    }
 }
