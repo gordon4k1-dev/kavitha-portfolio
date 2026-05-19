@@ -1,64 +1,195 @@
-// SCROLL REVEAL
+/* ===== REVEAL ON SCROLL ===== */
 
-const modules = document.querySelectorAll(".data-module");
+const reveals = document.querySelectorAll('.reveal');
 
-const observer = new IntersectionObserver((entries)=>{
+function revealSections() {
 
-    entries.forEach(entry=>{
+    reveals.forEach(section => {
 
-        if(entry.isIntersecting){
+        const windowHeight = window.innerHeight;
+        const revealTop = section.getBoundingClientRect().top;
+        const revealPoint = 120;
 
-            entry.target.classList.add("show");
+        if(revealTop < windowHeight - revealPoint){
+            section.classList.add('active');
+        }
+
+    });
+
+}
+
+window.addEventListener('scroll', revealSections);
+revealSections();
+
+/* ===== PARALLAX IMAGES ===== */
+
+window.addEventListener('scroll', () => {
+
+    const parallax = document.querySelectorAll('.parallax-image');
+
+    parallax.forEach(img => {
+
+        const speed = 0.08;
+        const yPos = -(window.scrollY * speed);
+
+        img.style.transform = `translateY(${yPos}px) scale(1.08)`;
+
+    });
+
+});
+
+/* ===== MODULE ACTIVE GLOW ===== */
+
+const modules = document.querySelectorAll('.data-module');
+
+window.addEventListener('scroll', () => {
+
+    let current = "";
+
+    modules.forEach(module => {
+
+        const sectionTop = module.offsetTop;
+        const sectionHeight = module.clientHeight;
+
+        if(pageYOffset >= sectionTop - sectionHeight / 3){
+            current = module.getAttribute('data-id');
+        }
+
+    });
+
+    modules.forEach(module => {
+        module.classList.remove('module-active');
+
+        if(module.getAttribute('data-id') === current){
+            module.classList.add('module-active');
         }
     });
 
-},{
-    threshold:0.15
 });
 
-modules.forEach(module=>{
-    observer.observe(module);
-});
-
-// IMAGE AUTO FIX
+/* ===== IMAGE LAZY LOADING ===== */
 
 const images = document.querySelectorAll("img");
 
-images.forEach(img=>{
-
-    img.loading = "lazy";
-
-    img.onerror = () => {
-
-        console.log("Missing image:", img.src);
-
-        const fallback = document.createElement("div");
-
-        fallback.className = "image-error";
-
-        fallback.innerText = "Image Not Found";
-
-        img.parentElement.appendChild(fallback);
-
-        img.remove();
-    };
+images.forEach(img => {
+    img.setAttribute("loading","lazy");
 });
 
-// PARALLAX EFFECT
+/* ===== SMOOTH HERO FADE ===== */
 
-window.addEventListener("scroll",()=>{
+window.addEventListener('scroll', () => {
 
-    const parallaxImages =
-        document.querySelectorAll(".parallax-image");
+    const hero = document.querySelector('.hero-content');
 
-    parallaxImages.forEach(img=>{
+    if(hero){
 
-        const speed = 0.05;
+        let value = 1 - window.scrollY / 700;
 
-        const y =
-            window.scrollY * speed;
+        hero.style.opacity = value;
 
-        img.style.transform =
-            `scale(1.1) translateY(${y}px)`;
+    }
+
+});
+
+/* ===== TYPEWRITER EFFECT ===== */
+
+const title = document.querySelector('.hero-title');
+
+if(title){
+
+    const original = title.innerHTML;
+
+    title.innerHTML = "";
+
+    let i = 0;
+
+    function typeWriter(){
+
+        if(i < original.length){
+
+            title.innerHTML += original.charAt(i);
+
+            i++;
+
+            setTimeout(typeWriter,40);
+
+        }
+
+    }
+
+    typeWriter();
+
+}
+
+/* ===== FLOATING META EFFECT ===== */
+
+const overlays = document.querySelectorAll('.meta-overlay');
+
+window.addEventListener('mousemove', (e) => {
+
+    let x = e.clientX / window.innerWidth;
+    let y = e.clientY / window.innerHeight;
+
+    overlays.forEach(overlay => {
+
+        overlay.style.transform = `
+            translate(
+                ${x * 6}px,
+                ${y * 6}px
+            )
+        `;
+
     });
+
 });
+
+/* ===== TICKER AUTO ===== */
+
+const ticker = document.querySelector('.ticker');
+
+if(ticker){
+
+    let pos = 0;
+
+    function animateTicker(){
+
+        pos--;
+
+        ticker.style.transform = `translateX(${pos}px)`;
+
+        if(Math.abs(pos) > ticker.scrollWidth / 2){
+            pos = 0;
+        }
+
+        requestAnimationFrame(animateTicker);
+
+    }
+
+    animateTicker();
+
+}
+
+/* ===== SAFETY PULSE ===== */
+
+const pulse = document.querySelectorAll('.safety-pulse');
+
+pulse.forEach(p => {
+
+    setInterval(() => {
+
+        p.classList.toggle('scale');
+
+    },1000);
+
+});
+
+/* ===== CONSOLE SIGNATURE ===== */
+
+console.log(`
+====================================
+KAVITHA SARMA PORTFOLIO SYSTEM
+Interactive Educational Archive
+Build Status : ACTIVE
+Modules Loaded : 39
+====================================
+`);
